@@ -131,7 +131,7 @@ String to List of Characters
 
 ```java
 String s = "abcd";
-// mapToObj box the char to Character or compile error will happen
+// mapToObj box the char to Character or compilse error will happen
 List<Character> charList = s.chars().mapToObj(i -> (char)i).collect(Collectors.toList());
 ```
 
