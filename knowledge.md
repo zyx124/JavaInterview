@@ -1,16 +1,123 @@
-## Core Java 
+##  
 
-#### String
+## String
 1. String constant pool
-2. String is immutable
+
+2. String is **immutable**
+
+   This means that every time we "change" the string, a new String object is created. Same for `substring` method.
+
+   ![string-substring-jdk7](http://www.programcreek.com/wp-content/uploads/2013/09/string-substring-jdk71-650x389.jpeg)
+
 3. StringBuilder (Synchronized) vs StringBuffer(Non-synchronized)
 
-**difference of final, finally, finalize**: 
-A final class cannot be instantiated, a final method cannot be overriden, a final variable cannot be reassigned.
-The finally keyword is used to create a block of code that follows a try block. A finally block of code always excecutes, whether or not an exception has occured.
-finalize() is a method that garbage collector always calls just before the deletion of the object eligible for garbage collection.
+The largest length of a String: 2^16 - 1 = 65535 when String is in the constant pool. 65534 in execution by javac.
 
-#### collections
+## Keywords
+
+**difference of final, finally, finalize**: 
+A `final` class cannot be instantiated, a final method cannot be overridden, a final variable cannot be reassigned.
+The `finally` keyword is used to create a block of code that follows a try block. A `finally` block of code always executes, whether or not an exception has occurred.
+`finalize()` is a method that garbage collector always calls just before the deletion of the object eligible for garbage collection.
+
+**static**:
+
+- Static variables are initialized only once before other instanced variables.
+
+- static methods can only call other static methods. static methods can be accessed directly by class. Static methods cannot be **overridden**.
+
+**default**: Java 8 introduces `default` methods for interface so that the child classes do not necessarily overwrite the added methods.
+
+## OOP
+
+**Inheritance**: Java doesn't support multiple inheritance as it may cause diamond problems. Java supports multiple interface implementations.
+
+**Polymorphism**: 
+
+| Static             | Dynamic            |
+| ------------------ | ------------------ |
+| Overload (compile) | Override (runtime) |
+
+| Interface                                                    | Abstract class                                               |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| only have `public abstract` methods                          | can have `abstract` and non abstract methods. Since Java 8, `default` and `static` methods are allowed. |
+| fields are default`public static final`, can have `default ` methods since java 8 | can have `final, non-final, static, non-static` fields       |
+| a class can `implements`multiple interface                   | can only `extends`one class                                  |
+
+**Marker Interface**: no methods or constants inside. Provides run time information about objects. E.g. **Cloneable, Serializable**.
+
+
+
+## Design Pattern
+
+**Singleton**: restrict only one instance of a certain class. 
+
+```java
+public class Singleton implements Serializable, Cloneable {
+    private static Singleton instance;
+    
+    // private constructor
+    private Singleton() {}
+    
+    // static synchronized singleton getInstance
+    public static synchronized Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton()
+        }
+        return instance;
+    }
+    
+    // prevent clone 
+    @Override
+    protected Object clone() throws CloneNotSupportException {
+        throw CloneNotSupportException();
+    }
+    
+    // prevent serializable
+    protect Object readResolve() {
+        return instance;
+    }
+}
+```
+
+**factory**: 
+
+```java
+   public interface Shape {
+       public void draw() {
+           System.out.println("draw shape");
+       }
+   }
+   
+   public class Circle implements Shape {
+       @Override
+       public void draw() {
+           System.out.println("draw circle");
+       }
+   }
+   
+   public class Square implements Shape {
+       @Override
+       public void draw() {
+           System.out.println("draw square");
+       }
+   }
+   
+   public class ShapeFactory {
+       public Shape getShape(String type) {
+           if (type == null) return null;
+           if (type.equalsIgnoreCase("circle")) {
+               return new Circle();
+           }
+           if (type.equalsIgnoreCase("square")) {
+               return new Square();
+           }
+           return null;
+       }
+   }
+```
+
+## Collections
 
 When list methods ```contains``` and ```indexOf``` are applied to Objects, we should rewrite the ```equals``` method. 
 
