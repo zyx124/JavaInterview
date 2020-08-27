@@ -1,6 +1,7 @@
-##  
+#### Core Java
 
-## String
+## **String**
+
 1. String constant pool
 
 2. String is **immutable**
@@ -28,7 +29,7 @@ The `finally` keyword is used to create a block of code that follows a try block
 
 **default**: Java 8 introduces `default` methods for interface so that the child classes do not necessarily overwrite the added methods.
 
-## OOP
+## **OOP**
 
 **Inheritance**: Java doesn't support multiple inheritance as it may cause diamond problems. Java supports multiple interface implementations.
 
@@ -37,6 +38,8 @@ The `finally` keyword is used to create a block of code that follows a try block
 | Static             | Dynamic            |
 | ------------------ | ------------------ |
 | Overload (compile) | Override (runtime) |
+
+**difference between interfaces and abstract classes**
 
 | Interface                                                    | Abstract class                                               |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -225,7 +228,76 @@ publc class Main {
 
 
 
+## Exception handling
+
+```ascii
+                     ┌───────────┐
+                     │  Object   │
+                     └───────────┘
+                           ▲
+                           │
+                     ┌───────────┐
+                     │ Throwable │
+                     └───────────┘
+                           ▲
+                 ┌─────────┴─────────┐
+                 │                   │
+           ┌───────────┐       ┌───────────┐
+           │   Error   │       │ Exception │
+           └───────────┘       └───────────┘
+                 ▲                   ▲
+         ┌───────┘              ┌────┴──────────┐
+         │                      │               │
+┌─────────────────┐    ┌─────────────────┐┌───────────┐
+│OutOfMemoryError │... │RuntimeException ││IOException│...
+└─────────────────┘    └─────────────────┘└───────────┘
+                                ▲
+                    ┌───────────┴─────────────┐
+                    │                         │
+         ┌─────────────────────┐ ┌─────────────────────────┐
+         │NullPointerException │ │IllegalArgumentException │...
+         └─────────────────────┘ └─────────────────────────┘
+```
+
+## 
+
+## 
+
+**user defined exception**:
+
+```java
+// first define a base exception
+public class BaseException extends RuntimeException{
+    // ...
+}
+
+// then other exceptions extends the base 
+public class UserNotFoundException extends BaseException {
+    //...
+}
+```
 
 
 
+## Multithreading 
+
+**Two ways to create threads**
+
+```java
+// 1
+class MyThread1 extends Thread {
+    @Override
+    public void run() {
+        System.out.println("start my thread 1")
+    }
+}
+
+// 2
+class Mythread2 implements Runnable {
+    @Override 
+    public void run() {
+        System.out.println("start my thread 2")
+    }
+}
+```
 
