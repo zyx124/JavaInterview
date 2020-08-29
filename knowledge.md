@@ -301,3 +301,137 @@ class Mythread2 implements Runnable {
 }
 ```
 
+**States of a thread**
+
+```ascii
+         ┌─────────────┐
+         │     New     │
+         └─────────────┘
+                │
+                ▼
+┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
+ ┌─────────────┐ ┌─────────────┐
+││  Runnable   │ │   Blocked   ││
+ └─────────────┘ └─────────────┘
+│┌─────────────┐ ┌─────────────┐│
+ │   Waiting   │ │Timed Waiting│
+│└─────────────┘ └─────────────┘│
+ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
+                │
+                ▼
+         ┌─────────────┐
+         │ Terminated  │
+         └─────────────┘
+```
+
+**how to stop a thread**
+
+1. `interrupt()`method to send a request to stop the thread, the target thread check `isInterrupted()`to know if itself has stopped. If the target thread is waiting, it will catch `InterruptedException`.
+
+2. Set a state variable for the thread 
+
+```java
+public class Main{
+    public static void main(String[] args) throws InterruptedException{
+        HelloThread t = new HellowThread();
+        t.start();
+        Thread.sleep(1);
+        t.running = false;
+    }
+}
+
+class HelloThread extends Thread {
+    public volatile boolean running = true;
+    public void run() {
+        int n = 0;
+        while (running) {
+            n++;
+            System.out.print(n + "hello");
+        }
+        System.out.println("end!");
+    }
+}
+```
+
+The `volatile` keyword is to tell the JVM always update and fetch the latest value of a variable. After a thread changes the value of a value, other threads can immediately see the latest value.
+
+```ascii
+┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
+           Main Memory
+│                               │
+   ┌───────┐┌───────┐┌───────┐
+│  │ var A ││ var B ││ var C │  │
+   └───────┘└───────┘└───────┘
+│     │ ▲               │ ▲     │
+ ─ ─ ─│─│─ ─ ─ ─ ─ ─ ─ ─│─│─ ─ ─
+      │ │               │ │
+┌ ─ ─ ┼ ┼ ─ ─ ┐   ┌ ─ ─ ┼ ┼ ─ ─ ┐
+      ▼ │               ▼ │
+│  ┌───────┐  │   │  ┌───────┐  │
+   │ var A │         │ var C │
+│  └───────┘  │   │  └───────┘  │
+   Thread 1          Thread 2
+└ ─ ─ ─ ─ ─ ─ ┘   └ ─ ─ ─ ─ ─ ─ ┘
+```
+
+**Daemon Thread**: JVM will exit when all the non daemon thread has stopped, whether or to the daemon thread has stopped. 
+
+set a thread as deamon
+
+```java
+Thread t = new MyThread();
+t.setDaemon(true);
+t.start()
+```
+
+**synchronized**
+
+use `synchronized`keyword to add lock to blocks of code. `synchronized` methods add lock to `this`.
+
+```java 
+public class Counter {
+    private int count = 0; 
+    
+    public void add(int n) {
+        synchronized(this) {
+            count += n;
+        }
+    }
+    
+    // this is equivalent to the following 
+    // public synchronized void add(int n) {...}
+    
+    public void dec(int n) {
+        synchronized(this) {
+            count -= n;
+        }
+    }
+    
+    public int get() {
+        return count;
+    }
+}
+```
+
+**wait, notify**
+
+`wait()`will release the lock temporarily so that other threads can get the lock. Then `notify()`will make the waiting thread get back its lock. `notifyAll()`will wake all the waiting thread up. 
+
+**ReentrantLock**
+
+`java.util.concurrent`has `ReentrantLock`to replace `synchronized` to add locks.
+
+**optimistic, pessimistic** locks
+
+- optimistic: read and write won't cause concurrent problems. will check modification when update. e.g. `StampedLock`
+- pessimistic: add locks every time retrieving data in case that other thread will change the data. e.g. `ReadWriteLock`
+
+**Executor service and thread pool**
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(3);
+executor.submit(task1);
+executor.submit(task2);
+executor.submit(task3);
+```
+
