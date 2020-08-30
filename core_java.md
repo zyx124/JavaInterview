@@ -353,6 +353,8 @@ class HelloThread extends Thread {
 }
 ```
 
+**volatile vs ThreadLocal**
+
 The `volatile` keyword is to tell the JVM always update and fetch the latest value of a variable. After a thread changes the value of a value, other threads can immediately see the latest value.
 
 ```ascii
@@ -373,6 +375,10 @@ The `volatile` keyword is to tell the JVM always update and fetch the latest val
    Thread 1          Thread 2
 └ ─ ─ ─ ─ ─ ─ ┘   └ ─ ─ ─ ─ ─ ─ ┘
 ```
+
+`ThreadLocal()`is the "local variable" of a thread which makes sure that ThreadLocal variable is independent. It must be applied in `try... finally` and be cleared in `finally`.
+
+
 
 **Daemon Thread**: JVM will exit when all the non daemon thread has stopped, whether or to the daemon thread has stopped. 
 
@@ -433,5 +439,28 @@ ExecutorService executor = Executors.newFixedThreadPool(3);
 executor.submit(task1);
 executor.submit(task2);
 executor.submit(task3);
+executor.shutdown(); // shutdown the service
 ```
+
+**Future**
+
+Java provides a `Callable<T>` interface to return a value, since`Runnable`has no return. 
+
+```java
+class Task implements Callable<String> {
+    public String call() throws Exception {
+        return longTimeCalculation();
+    }
+}
+
+```
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(3);
+Callable<String> task = new Task();
+Future<String> future = executor.submit(task);
+String result = future.get();
+```
+
+`ExecutorService.submit()` returns a `Future` type, which allows to get results in the future. If the main thread use `get()` methods of `Future`objects, we can get the asynchronous result. 
 
