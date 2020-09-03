@@ -75,6 +75,19 @@ public class Controller {
 
 `ApplicationContext` extends `BeanFactory`, which means they both support bean instantiation/wiring. `ApplicationContext` supports more functions like `ApplicationEvent` publication and internationalization.
 
+**Bean Scope**
+
+| Scope       | Description                                     |
+| ----------- | ----------------------------------------------- |
+| singleton   | Default. A bean is created as a singleton.      |
+| prototype   | A single bean can have any number of instances. |
+| request     | HTTP request instance                           |
+| session     | HTTP session bean                               |
+| application | `ServletContext`                                |
+| websocket   | `WebSocket`                                     |
+
+
+
 ## JPA
 
 **how to handle transactions?**
