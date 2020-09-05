@@ -86,7 +86,9 @@ public class Controller {
 | application | `ServletContext`                                |
 | websocket   | `WebSocket`                                     |
 
+**How to inject with names**
 
+`@Bean("name")`or `@Bean("name") + @Qualifier("name")`
 
 ## JPA
 
