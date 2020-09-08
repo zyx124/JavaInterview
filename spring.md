@@ -90,6 +90,12 @@ public class Controller {
 
 `@Bean("name")`or `@Bean("name") + @Qualifier("name")`
 
+
+
+## hibernate
+
+In Hibernate, **do not use** primitive types like `long`, use boxed types like `Long, Integer`.
+
 ## JPA
 
 **how to handle transactions?**
