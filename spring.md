@@ -77,18 +77,40 @@ public class Controller {
 
 **Bean Scope**
 
-| Scope       | Description                                     |
-| ----------- | ----------------------------------------------- |
-| singleton   | Default. A bean is created as a singleton.      |
-| prototype   | A single bean can have any number of instances. |
-| request     | HTTP request instance                           |
-| session     | HTTP session bean                               |
-| application | `ServletContext`                                |
-| websocket   | `WebSocket`                                     |
+| Scope       | Description                                                  |
+| ----------- | ------------------------------------------------------------ |
+| singleton   | Default. A bean is created as a singleton.                   |
+| prototype   | A single bean can have any number of instances.              |
+| request     | every HTTP request will generate a new bean which only lives in this  request |
+| session     | every HTTP request will generate a new bean which only lives in this  session |
+| application | `ServletContext`                                             |
+| websocket   | `WebSocket`                                                  |
+
+**Bean life cycle**
+
+![lifecycle](http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-17/48376272.jpg)
 
 **How to inject with names**
 
 `@Bean("name")`or `@Bean("name") + @Qualifier("name")`
+
+**difference of `@Bean` and `@Component`**
+
+`@Component` applies to classes, while `@Bean` applies to methods
+
+
+
+## MVC
+
+`@RestController = @Controller + @ResponseBody`
+
+**how to define input and output to json in controllers**
+
+```
+@PostMapping(value="rest",
+			 consumes = "application/json;charset=UTF-8", 
+			 produces = "application/json;charset=UTF-8")
+```
 
 
 
