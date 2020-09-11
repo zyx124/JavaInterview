@@ -114,7 +114,7 @@ public class Controller {
 
 
 
-## hibernate
+## Hibernate
 
 In Hibernate, **do not use** primitive types like `long`, use boxed types like `Long, Integer`.
 
