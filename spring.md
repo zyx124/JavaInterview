@@ -6,11 +6,17 @@
 
 2xx: successful response
 
+200 OK, 201 created, 
+
 3xx: redirects
 
 4xx: client side errors
 
+400 bad requests, 403 Forbidden, 404 Not found, 405 method not allowed,
+
 5xx: server side error
+
+500 internal server error, 502 bad gateway
 
 ## IOC
 
@@ -96,7 +102,7 @@ public class Controller {
 
 **difference of `@Bean` and `@Component`**
 
-`@Component` applies to classes, while `@Bean` applies to methods.
+`@Component` applies to classes, while `@Bean` applies to methods. 
 
 
 
