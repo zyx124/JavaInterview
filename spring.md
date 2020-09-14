@@ -104,7 +104,27 @@ public class Controller {
 
 `@Component` applies to classes, while `@Bean` applies to methods. 
 
+**@Lazy loading**
 
+When a bean is annotated as @Lazy, it will not load until there is a call. Otherwise, it will be preloaded once injected.
+
+```java
+@Lazy
+@Service
+public class MyService {
+}
+```
+
+```java
+@Controller
+public class MyController {
+    @Lazy
+    @Autowired
+    public MyService myService;
+}
+```
+
+`@Lazy`must be in **both** places to inject lazy beans.
 
 ## MVC
 
