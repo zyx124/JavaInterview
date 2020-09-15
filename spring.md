@@ -144,6 +144,16 @@ public class MyController {
 
 In Hibernate, **do not use** primitive types like `long`, use boxed types like `Long, Integer`.
 
+**Two-level caching**
+
+The first level (default) is session cache. Objects are alive until the session is closed.
+
+The second level cache exists as long as the SessionFactory exists. 
+
+![Hibernate caching](https://www.tutorialspoint.com/hibernate/images/hibernate_cache.jpg)
+
+When looking for an entity, search the first level first, if not found then search the second level. If an entity is found in the second but not in the first, the entity is first stored in the first level then return so that next time it can be found in the first level. 
+
 
 
 ## JDBC
@@ -176,11 +186,11 @@ use `PreparedStatement` instead of `statement` to prevent SQL injection.
 
 **how to handle transactions?**
 
- --- @transactional
+ --- @Transactional
 
 **update entities in several steps, one step fails, what will you do?**
 
- --- @transactional to put them in one transaction, if any step fails, rollback the entire transaction
+ --- @Transactional to put them in one transaction, if any step fails, rollback the entire transaction
 
 **How do you handle exceptions in rest api/Spring MVC?** 
 
