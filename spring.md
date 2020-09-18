@@ -211,3 +211,15 @@ use `PreparedStatement` instead of `statement` to prevent SQL injection.
 --- bulk updates, cache result, fetchtype=LAZY
 
 **Pagination** is used when dealing a large amount of data.
+
+## CORS (Cross-origin-resource-sharing)
+
+```java
+@CrossOrigin(origins = "http://local.myhost.com:8080")
+@RestController
+@RequestMapping("/api")
+public class ApiController {
+    ...
+}
+```
+
