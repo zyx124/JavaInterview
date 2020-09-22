@@ -154,7 +154,15 @@ The second level cache exists as long as the SessionFactory exists.
 
 When looking for an entity, search the first level first, if not found then search the second level. If an entity is found in the second but not in the first, the entity is first stored in the first level then return so that next time it can be found in the first level. 
 
+**Performance Tuning**
 
+- use logging to track visits to database
+- optimize HQL or native SQL queries
+- FetchType=LAZY
+- use cache
+- Bulk updates/deletes
+
+## 
 
 ## JDBC
 
