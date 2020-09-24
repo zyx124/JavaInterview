@@ -259,9 +259,7 @@ publc class Main {
          └─────────────────────┘ └─────────────────────────┘
 ```
 
-## 
 
-## 
 
 **user defined exception**:
 
@@ -432,7 +430,7 @@ public class Counter {
 - optimistic: read and write won't cause concurrent problems. will check modification when update. e.g. `StampedLock`
 - pessimistic: add locks every time retrieving data in case that other thread will change the data. e.g. `ReadWriteLock`
 
-**Executor service and thread pool**
+**ExecutorService and thread pool**
 
 ```java
 ExecutorService executor = Executors.newFixedThreadPool(3);
@@ -441,6 +439,17 @@ executor.submit(task2);
 executor.submit(task3);
 executor.shutdown(); // shutdown the service
 ```
+
+`newFixedThreadPool(), newSingleThreadPool(), newCachedThreadPool()` are all using `ThreadPoolExecutor()`, which has `corePoolSize, maximumPoolSize, keepAliveTime, unit, wordQueue, RejectExecutionHandler` parameters.
+
+**Rejection Strategy:**
+
+- AbortPolicy: default, will throw an Exception and stop the execution
+- CallerRunsPolicy: give the task to the current thread
+- DiscardPolicy: ignore the task
+- DiscardOldestPolicy: ignore the oldest task.
+
+
 
 **Future**
 
@@ -462,5 +471,5 @@ Future<String> future = executor.submit(task);
 String result = future.get();
 ```
 
-`ExecutorService.submit()` returns a `Future` type, which allows to get results in the future. If the main thread use `get()` methods of `Future`objects, we can get the asynchronous result. 
+`ExecutorService.submit()` and `invokeAll()` return `Future` type, which allows to get results in the future. If the main thread use `get()` methods of `Future`objects, we can get the asynchronous result. 
 
