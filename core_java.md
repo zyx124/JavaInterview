@@ -473,3 +473,38 @@ String result = future.get();
 
 `ExecutorService.submit()` and `invokeAll()` return `Future` type, which allows to get results in the future. If the main thread use `get()` methods of `Future`objects, we can get the asynchronous result. 
 
+## JVM
+
+
+
+![JVM architecture](https://static.javatpoint.com/images/jvm-architecture.png)
+
+**ClassLoader:**
+
+- Bootstrap ClassLoader: load the *rt.jar* file which contains all class files of Java Standard Edition like *java.lang, java.net, jave.util*.
+- Extension ClassLoader: Child of Bootstrap ClassLoader
+- System/Application ClassLoader: child of Extension ClassLoader.
+
+**Class Area**: stores per-class structures such as the runtime constant pool, fields and methods data. 
+
+**Heap**: runtime area where **objects** are allocated. Heap is shared by all threads. It's also the main region for Garbage Collection.
+
+**Stack:** stores **frames**. It holds local variables and partial results, and plays a part in method invocation and return. 
+
+Each thread has a private JVM stack. 
+
+A frame is created every time a method is invoked. A frame is destroyed when its method invocation completes. 
+
+May have `StackOverFlowError` and `OutOfMemoryError`
+
+**Program Counter Register: **PC register contains the address of the JVM instruction currently being executed. 
+
+**Native Method Stack**: It contains all the native methods used in the application.
+
+**Execution Engine:** 
+
+- a virtual processor 
+- Interpreter: read bytecode and executes
+- Just-In-Time( JIT) compiler: improves the performance.
+
+**Java Native Interface:** JNI is a framework which provides an interface to communicate with another application written in another language.
