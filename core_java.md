@@ -543,3 +543,10 @@ An object is first allocated into Eden area, if space is not enough, JVM will st
 
 Large objects like Strings and arrays go directly into the Old Generation.
 
+**Garbage collector**:
+
+- Serial: pause all the other threads until the GC finishes
+- Parnew: Parallel GC threads, still stop other threads
+- Parallel Scavenge: focus on how to efficiently use cpu.
+- CMS (Concurrent Mark Sweep):  multiple GC while the app is still running. 
+- G1 (Garbage First): designed for multi-processor machines with large memory spaces. 
