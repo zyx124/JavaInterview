@@ -550,3 +550,24 @@ Large objects like Strings and arrays go directly into the Old Generation.
 - Parallel Scavenge: focus on how to efficiently use cpu.
 - CMS (Concurrent Mark Sweep):  multiple GC while the app is still running. 
 - G1 (Garbage First): designed for multi-processor machines with large memory spaces. 
+
+## Class Loader
+
+types:
+
+- Bootstrap CL: loads JDK internal classes. It serves as a parent of all the other `ClassLoader` instances.
+- Extension CL: child of Bootstrap CL and takes care of loading the extensions of the standard core Java Classes.
+- System CL: child of Extension CL and takes cares of loading all the application level classes into the JVM. 
+
+**How CL works?** 
+
+![](https://media.geeksforgeeks.org/wp-content/uploads/jvmclassloader.jpg)
+
+principles of a Java CL:
+
+**Delegation Model:** Delegation Hierarchy Algorithm to load the classes into the Java File. 
+
+**Visibility Principle:** a class loaded by a parent CL is visible to the child CL, but classes loaded by child are not visible to the parent.
+
+**Uniqueness Property:** no repetition of classes. 
+
