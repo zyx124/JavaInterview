@@ -233,3 +233,27 @@ public class ApiController {
 
 ## Spring AOP (Aspect Oriented Programming)
 
+Add modular functions, like loggings, without changing the original logic of the program. Spring uses AspectJ to realize AOP.
+
+Example: 
+
+```java
+@Aspect 
+@Component
+public class LoggingAspect {
+    @Before("execution(public * com.mysite.service.MyService.*(...))")
+    public void doAccessCheck() {
+        System.err.println("[Before] do access check...")
+    }
+    
+    @Around('execution(public * com.mysite.service.MailService.*(...))')
+    public Object doLogging(ProceedingJoinPoint pjp) {
+        System.err.println("[Around] start " + pjp.getSignature());
+        Object retVal = pjp.proceed();
+        System.err.println("[Around] done " + pjp.getSignature());
+        return retVal;
+    }
+}
+```
+
+Then add `@EnableAspectAutoProxy` to`@Configuration`class to allow Spring IoC container to look for Beans with `@Aspect` .
