@@ -256,4 +256,28 @@ public class LoggingAspect {
 }
 ```
 
-Then add `@EnableAspectAutoProxy` to`@Configuration`class to allow Spring IoC container to look for Beans with `@Aspect` .
+Then add `@EnableAspectAutoProxy` to`@Configuration`class to allow Spring IoC container to look for Beans with `@Aspect` .f
+
+## Cache
+
+Local cache: 
+
+- HashMap and ConcurrentHashMap (thread safe) in JDK
+- Ehcache, Guava Cache, Spring Cache
+- Caffeine
+
+
+
+Distributed Cache: Redis or Memcached
+
+Cache read and write:
+
+- Cache Aside Pattern: 
+  - write: update DB and clear the cache
+  - read: read data from cache, if get the data then return. If not, read from DB and put it in cache.
+- Read/Write Through Pattern:
+  - Write Through: first check if the data in cache, if not, update DB, if yes, update cache first then cache service update the DB.
+  - Read Through: Read from cache, if data is there then return, if not, load from DB and add to cache then return. 
+
+
+
