@@ -278,6 +278,8 @@ Cache read and write:
 - Read/Write Through Pattern:
   - Write Through: first check if the data in cache, if not, update DB, if yes, update cache first then cache service update the DB.
   - Read Through: Read from cache, if data is there then return, if not, load from DB and add to cache then return. 
+- Write Behind Pattern
+  - Just update the cache first, update the DB asynchronously. 
 
 
 
