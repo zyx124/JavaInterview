@@ -256,7 +256,11 @@ public class LoggingAspect {
 }
 ```
 
-Then add `@EnableAspectAutoProxy` to`@Configuration`class to allow Spring IoC container to look for Beans with `@Aspect` .f
+Then add `@EnableAspectAutoProxy` to`@Configuration`class to allow Spring IoC container to look for Beans with `@Aspect`.
+
+Spring AOP default uses standard JDK dynamic proxies for AOP proxies. This enable any **interface** to be proxied.
+
+Spring AOP can also use **CGLIB** to create runtime proxy. This is necessary to proxy **classes**. CGLIB is used if a business object does implement an interface. The proxy created by CGLIB **won't **initialize any fields inherited from the super class, including the `final` parameters. 
 
 ## Cache
 
