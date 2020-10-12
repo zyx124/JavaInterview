@@ -29,5 +29,9 @@ docker pull mysql:5.7
 
 # Delete an image 
 docker stop [container]
+docker rm [container name/id]
 docker rmi [image]
+
+# Use the docker 
 ```
+
