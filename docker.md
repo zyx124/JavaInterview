@@ -33,5 +33,9 @@ docker rm [container name/id]
 docker rmi [image]
 
 # Use the docker 
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+# e.g. -p stands for publish, -d stands for detach, which means running in the background
+docker run -p 8000:8080 -d --name myname mysql
+
 ```
 
