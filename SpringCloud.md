@@ -20,4 +20,14 @@ Configuration Center:
 
 
 
+**Spring Cloud Gateway**
+
+**route:** defined by an ID and a destination URI, a collection of filters and a collection of predicates. A route is matched if aggregate predicate is true.
+
+**predicate**: input type is `ServerWebExchange`. This allows developers to match on anything from the HTTP requests.
+
+**Filter:** requests and responses can be modified before or after sending the downstream request.
+
+
+
 

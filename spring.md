@@ -22,7 +22,7 @@
 
 Responsibility of IoC container:
 
-- Dependent Injection & Dependent lookup
+- Dependency Injection & Dependency lookup
 - Life cycle management: container, resources (java beans)
 - Configuration
 
@@ -206,7 +206,7 @@ use `PreparedStatement` instead of `statement` to prevent SQL injection.
 
 **How do you turn on 2nd level cache and what is the cache provider??** 
 
---- how: set property use_second_level_cache to TRUE.
+--- how: set property `use_second_level_cache` to TRUE.
 
 --- what: EHCache
 
@@ -216,7 +216,7 @@ use `PreparedStatement` instead of `statement` to prevent SQL injection.
 
 **improve performance**
 
---- bulk updates, cache result, fetchtype=LAZY
+--- bulk updates, cache result, `fetchtype=LAZY`
 
 **Pagination** is used when dealing a large amount of data.
 

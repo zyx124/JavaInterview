@@ -39,7 +39,7 @@ The `finally` keyword is used to create a block of code that follows a try block
 | ------------------ | ------------------ |
 | Overload (compile) | Override (runtime) |
 
-**difference between interfaces and abstract classes**
+**difference between interface and abstract class**
 
 | Interface                                                    | Abstract class                                               |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -423,7 +423,7 @@ public class Counter {
 
 **ReentrantLock**
 
-`java.util.concurrent`has `ReentrantLock`to replace `synchronized` to add locks.
+`java.util.concurrent`has `ReentrantLock`to replace `synchronized` to add locks. It provides synchronization method while accessing shared resources. 
 
 **optimistic, pessimistic** locks
 
@@ -453,7 +453,7 @@ executor.shutdown(); // shutdown the service
 
 **Future**
 
-Java provides a `Callable<T>` interface to return a value, since`Runnable`has no return. 
+Java provides a `Callable<T>` interface to return a value, since `Runnable`has no return. 
 
 ```java
 class Task implements Callable<String> {
