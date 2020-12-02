@@ -154,7 +154,7 @@ if we only use toArray() method, the array object type is Object.
 array to ArrayList
 
 ```java
-String array = {"a", "b", "c"};
+String[] array = {"a", "b", "c"};
 // method 1
 List<String> list1 = new ArrayList<String>(Arrays.asList(array));
 
@@ -201,5 +201,13 @@ System.out.println(Character.isLetter(S.charAt(0)));
 // in ascii, 'a' represent 97, 'A' represent 65
 // if a char is alphanumeric and larger or equal than 65, it is a lowercase letter.
 System.out.println(S.charAt(0) - 'a' >= 0)
+```
+
+## Split a String
+
+```java
+// 1.
+String str = "peter, james, ricky";
+String[] splitted = str.split(", ");
 ```
 
