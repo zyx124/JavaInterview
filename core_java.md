@@ -14,6 +14,18 @@
 
 The largest length of a String: 2^16 - 1 = 65535 when String is in the constant pool. 65534 in execution by javac.
 
+
+
+**Why string is immutable?**
+
+Security: Network connections, database connections, user name and password are often represented in strings. Mutability will let these parameters easily be changed.
+
+Synchronization: Immutable String is thread safe.
+
+Caching: if the two string have the same value, the compiler will optimized them into one object.
+
+
+
 ## Keywords
 
 **difference of final, finally, finalize**: 
