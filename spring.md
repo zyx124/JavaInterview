@@ -233,7 +233,7 @@ public class ApiController {
 
 ## Spring AOP (Aspect Oriented Programming)
 
-Add modular functions, like loggings, without changing the original logic of the program. Spring uses AspectJ to realize AOP.
+Add modular functions, like loggings, without changing the original logic of the program. It is a programming paradigm that aims to increase modularity by allowing the separations of **cross-cutting** concerns. Spring uses AspectJ to realize AOP.
 
 Example: 
 
