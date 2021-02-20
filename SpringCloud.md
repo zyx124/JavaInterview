@@ -30,4 +30,62 @@ Configuration Center:
 
 
 
+**JSR303**
 
+1. Add validation annotation for the bean and redefine the message. (`javax.validation.constraints`)
+
+2. Turn on the validation process. `@Valid`
+
+3. Add a `BindingResult`, then we can check the result of the validation.
+
+4. Group the validation. 
+
+   1. `@NotBlank(message = "Cannot be blank!", group = {UpdateGroup.class})`
+   2. Add `@Validated({UpdateGroup.class})` in the controller to specify the group
+   3. Validation annotations without group will not be validated in group-specified validation. 
+
+5. Customized validation
+
+   1. Define a customized validation annotation
+
+   2. Create a validator `ConstraintValidator`
+
+   3. Connect the annotation and the validator
+
+      ```java
+      @Documented
+      // can assign multiple validators here
+      @Constraint(validatedBy = {ListValueConstraintValidator.class})
+      @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
+      @Retention(RetentionPolicy.RUNTIME)
+      public @interface ListValue {
+          String message() default "{com.zyx.common.valid.ListValue.message}";
+      
+          Class<?>[] groups() default {};
+      
+          Class<? extends Payload>[] payload() default {};
+      
+          int[] vals() default {};
+      }
+      ```
+
+      
+
+## Different Objects
+
+**PO (Persistent Object):** A record in some table, which doesn't have any operations in the database.
+
+**DO (Domain Object)**: Entity to realize the domain model. If the model consists of restaurant, order and customer, the DOs are like Restaurant, Order and Customer. Not all objects in the domain model are necessarily to be DO. For example, a phone number is a **value object**.
+
+**DTO (Data Transfer Object**)
+
+**VO (Value Object)**: Data transfer object between services, only contains data objects. 
+
+**BO (Business Object)**: Encapsule the business logic into an object, which may include multiple POs.
+
+**POJO (Plain Ordinary Java Object)**: A java object that is bound to no specific framework. JavaBean is a type of POJO, which has access levels (private properties and getter and setters), method names, default constructor ands serializable.
+
+**DAO (Data Access Object)**: for data persistent to access the database.
+
+
+https://donate.cafe/ricky

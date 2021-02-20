@@ -211,3 +211,26 @@ String str = "peter, james, ricky";
 String[] splitted = str.split(", ");
 ```
 
+## Traverse a Map
+
+```java
+class MapIteration {
+    public static void main(String[] arg) {
+        Map<String, String> map = new HashMap<>();
+        map.put("abc", "ABC");
+        map.put("Hi", "There");
+        
+        // method 1
+        for (Map.Entry<String, String> entry: map.entrySet()) {
+            System.out.println("Key: " + entry.getKey() +
+                              "Value: " + entry.getValue());
+        }
+        
+        // method 2
+        map.forEach((k, v) -> {
+            System.out.println("Key: " + k + "Value: " + v);
+        })
+    }
+}
+```
+
