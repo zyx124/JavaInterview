@@ -193,6 +193,14 @@ char c = s.charAt(0);
 
 check if a char is lower
 
+ASCII value of common characters:
+
+0 - 48
+
+a- 97
+
+A - 65
+
 ```java
 String S = "World";
 System.out.println(Character.isLetter(S.charAt(0)));
