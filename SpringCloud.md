@@ -89,3 +89,14 @@ Configuration Center:
 
 
 https://donate.cafe/ricky
+
+
+
+## JMeter
+
+Concepts:
+
+- Response Time
+- Hits per second (HPS)
+- Query per second (QPS)
+- Maxium/Minimum Response Time 
