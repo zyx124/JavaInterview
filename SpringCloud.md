@@ -71,7 +71,7 @@ Configuration Center:
 
       
 
-## Different Objects
+## Different Objects in Mall Applications
 
 **PO (Persistent Object):** A record in some table, which doesn't have any operations in the database.
 
