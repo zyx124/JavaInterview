@@ -32,6 +32,37 @@ Integer[] newArray = Arrays.stream(array)
     						.collect(Collectors.toList());
 ```
 
+
+
+How to remove elements from map when iterating? (also applies for other types in Collections)
+
+```java
+// When using Map.remove(), ConcurrentModificationException will occur.
+
+// method 1: Using Iterator.remove()
+Map<String, String> map = new HashMap<>();
+Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
+while (it.hasNext()) {
+    Map.Entry<String, String> entry = it.next();
+    if (entry.getKey().equals("test")) {
+        it.remove();
+    }
+}
+// or 
+for (Iterator<Map.Entry<String, String>> it = map.entrySet().iterator(); it.hasNext()) {
+    Map.Entry<String, String> entry = it.next();
+    if (entry.getKey().equals("test")) {
+        it.remove();
+    }
+}
+// method 2: Using removeIf() in Collections
+map.entrySet().removeIf(e -> map.getKey().equals("test"));
+```
+
+
+
+
+
 ## sort 
 
 sort an array
@@ -264,7 +295,7 @@ if we only use toArray() method, the array object type is Object.
 */
 ```
 
-array to ArrayList
+String array to ArrayList
 
 ```java
 String[] array = {"a", "b", "c"};
@@ -277,6 +308,15 @@ Collections.addAll(list2, array);
 
 
 ```
+
+ArrayList to int array
+
+```java
+ArrayList<Integer> list = new ArrayList<Integer>();
+int[] array = list.stream().mapToInt(Integer::intValue).toArray();
+```
+
+
 
 array to List
 
