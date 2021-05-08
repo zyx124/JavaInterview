@@ -39,7 +39,33 @@ The `finally` keyword is used to create a block of code that follows a try block
 
 - static methods can only call other static methods. static methods can be accessed directly by class. Static methods cannot be **overridden**.
 
-**default**: Java 8 introduces `default` methods for interface so that the child classes do not necessarily overwrite the added methods.
+**default**: Java 8 introduces `default` methods for interface so that the child classes do not necessarily overwrite the added methods. For multiple implementation of interfaces, the default methods can be called as 
+
+```java
+interface A {
+    default void call() {
+        System.print("a");
+    }
+}
+
+interface B {
+    default void call() {
+        System.print("b");
+    }
+}
+
+class C implements A, B {
+    @Override
+    void call() {
+        A.super.call();
+        B.super.call();
+    }
+}
+```
+
+
+
+
 
 ## **OOP**
 
@@ -51,7 +77,7 @@ The `finally` keyword is used to create a block of code that follows a try block
 | ------------------ | ------------------ |
 | Overload (compile) | Override (runtime) |
 
-**difference between interface and abstract class**
+**interface vs abstract class**
 
 | Interface                                                    | Abstract class                                               |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -61,7 +87,23 @@ The `finally` keyword is used to create a block of code that follows a try block
 
 **Marker Interface**: no methods or constants inside. Provides run time information about objects. E.g. **Cloneable, Serializable**.
 
+**Serializable**: The serialization process is to convert an object into byte stream and deserialization is to reverse the stream into the object. Serializable will tell JVM this class can be serialized. 
 
+`static` and `transient` fields won't be serialized. Once a class implements `Serializable`, all its subclasses are serializable. 
+
+When an object has an reference to another object, these objects must also implement `Serializable`, or JVM will throw `NotSerializableException`. 
+
+We should create a `serialVersionUID ` so that if we change our class structure, JVM won't through `InvalidClassException`.
+
+## Java 8
+
+**Lambdas**: anonymous function 
+
+**Functional Interfaces**: Interface with a **single Abstract methods**
+
+## 
+
+## 
 
 ## Design Pattern
 
@@ -85,7 +127,7 @@ public class Singleton implements Serializable, Cloneable {
     // prevent clone 
     @Override
     protected Object clone() throws CloneNotSupportException {
-        throw CloneNotSupportException();
+        throw nCloneNotSupportException();
     }
     
     // prevent serializable
@@ -136,10 +178,63 @@ public class Singleton implements Serializable, Cloneable {
 
 ## Collections
 
-**How to sort objects**
+#### Iterator
 
-1. Implement a `Comparator` and override `compare`.
+Why? Unsafe to add or delete collection while iterating. 
+
+How to remove elements from map when iterating? (also applies for other types in Collections)
+
+```java
+// When using remove() in a loop, ConcurrentModificationException will occur.
+List<Integer> list = new ArrayList<>();
+for (Integer i ： list) {
+    list.remove(i); // Exception!
+}
+
+// method 1: Using Iterator.remove()
+Map<String, String> map = new HashMap<>();
+Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
+while (it.hasNext()) {
+    Map.Entry<String, String> entry = it.next();
+    if (entry.getKey().equals("test")) {
+        it.remove();
+    }
+}
+// or 
+for (Iterator<Map.Entry<String, String>> it = map.entrySet().iterator(); it.hasNext()) {
+    Map.Entry<String, String> entry = it.next();
+    if (entry.getKey().equals("test")) {
+        it.remove();
+    }
+}
+// method 2: Using removeIf() in Collections
+map.entrySet().removeIf(e -> map.getKey().equals("test"));
+```
+
+
+
+#### hashcode() and equals()
+
+Hashcode() will get same result every time it is called. If two objects are same through equals(), then Hashcode() will be the same. If not, Hashcode() may not required to be different.
+
+#### How to sort objects
+
+1. Implement a `Comparator` and override `compare`. It is often used externally.
+
+   ```java
+   Collections.sort(arraylist, new Comparator<T>() {
+       @Override
+       public int compare(T o1, T o2) {
+           return o1 - o2;
+       }
+   })
+   ```
+
+   
+
 2. Implement the `Comparable` interface and override `compareTo` 
+
+   
 
 ```java
 class Book implements Comparable<Book> {
@@ -219,9 +314,20 @@ public class Main {
 }
 ```
 
-HashMap also needs overwrite ```equals``` method for keys. Besides, `hashCode()`also needs to be created, which can utilize Objects.hash(Objects...) to realize.
+HashMap also needs overwrite ```equals``` method for keys. Besides, `hashCode()`also needs to be created, which can utilize `Objects.hash(Objects...)` to realize.
 
-**EnumMap**
+
+
+#### **LinkeList vs ArrayList**:
+
+| ArrayList                                  | LInkedList                              |
+| ------------------------------------------ | --------------------------------------- |
+| dynamic array inside                       | doubly  linked list interal             |
+| manipulating data slow for bit shifting    | manipulating data fast, no bit shifting |
+| only implements List                       | implements list and deque               |
+| better for storing and accessing data( O1) | Manipulating data better                |
+
+#### **EnumMap**
 
 If the keys are `Enum` types, `EnumMap` can be used to improve the speed.
 
@@ -248,7 +354,7 @@ public class MyClass {
 
 
 
-**TreeMap**
+#### **TreeMap**
 
 TreeMap inherits from SortedMap, the keys of which is sorted when being put into the map. Therefore, `Comparable`interface should be implemented, which requires that if equal, return 0, if larger, return 1, if smaller, return -1.
 
@@ -291,7 +397,7 @@ publc class Main {
 
 
 
-## Exception handling
+#### Exception handling
 
 ```ascii
                      ┌───────────┐
@@ -324,7 +430,7 @@ publc class Main {
 
 
 
-**user defined exception**:
+#### **user defined exception**:
 
 ```java
 // first define a base exception
@@ -342,7 +448,11 @@ public class UserNotFoundException extends BaseException {
 
 ## Multithreading 
 
-**Two ways to create threads**
+#### Thread vs Process
+
+Process is a program and usually programs don't share the memory and consists of multiple thread. Thread just deal with simple task and may share the memory with other threads. 
+
+#### **Two ways to create threads**
 
 ```java
 // 1
@@ -362,7 +472,19 @@ class Mythread2 implements Runnable {
 }
 ```
 
-**States of a thread**
+#### Methods
+
+To create a thread, `start()` is used. If only use `run()`, it only calls the simple method. `start()` can only be used once, but `run()` can be called multiple times.
+
+`join()` makes the thread into a waiting state until the reference thread terminates.
+
+`wait()`: Instance method of an object used for synchronization. Can only be called from a **synchronized block** to release the lock on the object.
+
+`Thread.sleep()`: static method, just pause the current thread and does **not** release locks.
+
+`Thread.yield()`: inform the scheduler that this thread is willing to relinquish its current use of processor and to be scheduled back as soon as possible. The behavior is varying.
+
+#### **States of a thread**
 
 ```ascii
          ┌─────────────┐
@@ -385,7 +507,9 @@ class Mythread2 implements Runnable {
          └─────────────┘
 ```
 
-**how to stop a thread**
+
+
+#### **how to stop a thread**
 
 1. `interrupt()`method to send a request to stop the thread, the target thread check `isInterrupted()`to know if itself has stopped. If the target thread is waiting, it will catch `InterruptedException`.
 
@@ -402,7 +526,7 @@ public class Main{
 }
 
 class HelloThread extends Thread {
-    public volatile boolean running = true;
+    public volatile boolean running = true; // use volatile to make sure the synchronization with the main memory.
     public void run() {
         int n = 0;
         while (running) {
@@ -414,7 +538,7 @@ class HelloThread extends Thread {
 }
 ```
 
-**volatile vs ThreadLocal**
+#### **volatile vs ThreadLocal**
 
 The `volatile` keyword is to tell the JVM always update and fetch the latest value of a variable. After a thread changes the value of a value, other threads can immediately see the latest value.
 
@@ -441,9 +565,9 @@ The `volatile` keyword is to tell the JVM always update and fetch the latest val
 
 
 
-**Daemon Thread**: JVM will exit when all the non daemon thread has stopped, whether or to the daemon thread has stopped. 
+**Daemon Thread**: JVM will exit when all the non daemon thread has stopped, whether or not the daemon thread has stopped. 
 
-set a thread as deamon
+set a thread as daemon
 
 ```java
 Thread t = new MyThread();
@@ -451,7 +575,7 @@ t.setDaemon(true);
 t.start()
 ```
 
-**synchronized**
+#### **synchronized**
 
 use `synchronized`keyword to add lock to blocks of code. `synchronized` methods add lock to `this`.
 
@@ -480,20 +604,20 @@ public class Counter {
 }
 ```
 
-**wait, notify**
+#### **wait, notify**
 
 `wait()`will release the lock temporarily so that other threads can get the lock. Then `notify()`will make the waiting thread get back its lock. `notifyAll()`will wake all the waiting thread up. 
 
-**ReentrantLock**
+#### **ReentrantLock**
 
 `java.util.concurrent`has `ReentrantLock`to replace `synchronized` to add locks. It provides synchronization method while accessing shared resources. 
 
-**optimistic, pessimistic** locks
+#### **optimistic, pessimistic** locks
 
 - optimistic: read and write won't cause concurrent problems. will check modification when update. e.g. `StampedLock`
 - pessimistic: add locks every time retrieving data in case that other thread will change the data. e.g. `ReadWriteLock`
 
-**ExecutorService and thread pool**
+#### **ExecutorService and thread pool**
 
 ```java
 ExecutorService executor = Executors.newFixedThreadPool(3);
@@ -505,7 +629,7 @@ executor.shutdown(); // shutdown the service
 
 `newFixedThreadPool(), newSingleThreadPool(), newCachedThreadPool()` are all using `ThreadPoolExecutor()`, which has `corePoolSize, maximumPoolSize, keepAliveTime, unit, wordQueue, RejectExecutionHandler` parameters.
 
-**Rejection Strategy:**
+#### **Rejection Strategy:**
 
 - AbortPolicy: default, will throw an Exception and stop the execution
 - CallerRunsPolicy: give the task to the current thread
@@ -514,7 +638,7 @@ executor.shutdown(); // shutdown the service
 
 
 
-**Future**
+#### **Future**
 
 Java provides a `Callable<T>` interface to return a value, since `Runnable`has no return. 
 
