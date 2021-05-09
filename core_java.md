@@ -119,7 +119,7 @@ public class Singleton implements Serializable, Cloneable {
     // static synchronized singleton getInstance
     public static synchronized Singleton getInstance() {
         if (instance == null) {
-            instance = new Singleton()
+            instance = new Singleton();
         }
         return instance;
     }
@@ -127,11 +127,11 @@ public class Singleton implements Serializable, Cloneable {
     // prevent clone 
     @Override
     protected Object clone() throws CloneNotSupportException {
-        throw nCloneNotSupportException();
+        throw new CloneNotSupportException();
     }
     
     // prevent serializable
-    protect Object readResolve() {
+    protecte Object readResolve() {
         return instance;
     }
 }
