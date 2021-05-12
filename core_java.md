@@ -1,5 +1,14 @@
 #### Core Java
 
+## Wrapper Class
+
+Wrapper classes encapsulate values inside to create objects. Integer is a wrapper class of int. Wrapper class is needed because:
+
+- java only supports call by value
+- serialization 
+- synchronization
+- collections framework works with only objects.
+
 ## **String**
 
 1. String constant pool
@@ -35,7 +44,7 @@ The `finally` keyword is used to create a block of code that follows a try block
 
 **static**:
 
-- Static variables are initialized only once before other instanced variables.
+- Static variables are initialized only once in **compile** time before other instanced variables.
 
 - static methods can only call other static methods. static methods can be accessed directly by class. Static methods cannot be **overridden**.
 
@@ -63,19 +72,34 @@ class C implements A, B {
 }
 ```
 
+**Field Modifier**:
 
+| Access modifier    | scope                         |
+| ------------------ | ----------------------------- |
+| public             | same class ands other classes |
+| private            | same class                    |
+| protected          | same class and sub-class      |
+| No access modifier | same package                  |
 
 
 
 ## **OOP**
 
-**Inheritance**: Java doesn't support multiple inheritance as it may cause diamond problems. Java supports multiple interface implementations.
+**Objects**: with fields and methods to store states and behavior. 
+
+**Inheritance**: Inheritance is a hierarchy relation between subclasses and the super class. Subclass can obtain properties of its super class. 
+
+Java allows **single, multilevel, hierarchy** inheritance. Java doesn't support multiple inheritance as it may cause diamond problems. Java supports multiple interface implementations.
+
+**How to solve diamond problem?** 
 
 **Polymorphism**: 
 
 | Static             | Dynamic            |
 | ------------------ | ------------------ |
 | Overload (compile) | Override (runtime) |
+
+**Covariant:** From java 5.0 onwards, overriding can have different return types from parent class. Child's return type should be the **sub-type** of the parent class.
 
 **interface vs abstract class**
 
@@ -95,13 +119,47 @@ When an object has an reference to another object, these objects must also imple
 
 We should create a `serialVersionUID ` so that if we change our class structure, JVM won't through `InvalidClassException`.
 
+**Encapsulation**: provide access control through hide the fields of a class as private. 
+
+Why: Flexibility, Reusability, Maintainability
+
+**toString()**: convert the objects into string representation. Without it, will print the address of the object.
+
 ## Java 8
 
 **Lambdas**: anonymous function 
 
-**Functional Interfaces**: Interface with a **single Abstract methods**
+**Functional Interfaces**: Interface with a **single Abstract methods**, like **Runnable**, **Comparable**
+
+- 
+
+
+
+## I/O Stream
+
+**Stream type**: 
+
+- **Byte stream** (`InputStream`, `OutputStream`): handling byte, for processing raw data files like binary files.
+
+  ![](https://www3.ntu.edu.sg/home/ehchua/programming/java/images/IO_InputOutputStreams.png)
+
+  
+
+- **Character Stream** (`Reader`, `Writer`): handling characters, use Unicode so can be internationalized. Often used to process text files.
+
+  ![](https://www3.ntu.edu.sg/home/ehchua/programming/java/images/IO_InputOutputReadersWriters.png)
+
+  - **Buffered Stream**: read buffer memory, native input API is called only when the buffer is empty, native output API is called when the buffer is full. `flush ` method can be called to save the buffer to the disk.
+
+    
+
+    
 
 ## 
+
+
+
+
 
 ## 
 
@@ -131,7 +189,7 @@ public class Singleton implements Serializable, Cloneable {
     }
     
     // prevent serializable
-    protecte Object readResolve() {
+    protected Object readResolve() {
         return instance;
     }
 }
@@ -178,6 +236,11 @@ public class Singleton implements Serializable, Cloneable {
 
 ## Collections
 
+#### Hierarchy
+
+![](https://facingissuesonitcom.files.wordpress.com/2019/07/java-collection-framework-hierarchy.jpg)
+
+
 #### Iterator
 
 Why? Unsafe to add or delete collection while iterating. 
@@ -211,15 +274,17 @@ for (Iterator<Map.Entry<String, String>> it = map.entrySet().iterator(); it.hasN
 map.entrySet().removeIf(e -> map.getKey().equals("test"));
 ```
 
+When java compiler deals with the for each loop, it will converts the loop into the type using iterators.
 
+Iterator can iterator set, which cannot be iterate directly using a for loop.
 
 #### hashcode() and equals()
 
 Hashcode() will get same result every time it is called. If two objects are same through equals(), then Hashcode() will be the same. If not, Hashcode() may not required to be different.
 
-#### How to sort objects
+#### Comparable and comparator (sort objects)
 
-1. Implement a `Comparator` and override `compare`. It is often used externally.
+1. Implement a `Comparator` and override `compare`. It is often used **externally**.
 
    ```java
    Collections.sort(arraylist, new Comparator<T>() {
@@ -314,7 +379,25 @@ public class Main {
 }
 ```
 
-HashMap also needs overwrite ```equals``` method for keys. Besides, `hashCode()`also needs to be created, which can utilize `Objects.hash(Objects...)` to realize.
+**HashMap** also needs overwrite ```equals``` method for keys. Besides, `hashCode()`also needs to be created, which can utilize `Objects.hash(Objects...)` to realize.
+
+#### HashMap implementation
+
+put():
+
+- initialize buckets (array), load factor and capacity.
+- hash() the key and calculate index
+- if no collision, put into the bucket, if there's collision, use LinkedList to go behind 
+- if the linked list is too large, change to red-black tree
+- if node exist, change the value
+- if load factor is reached, expand 
+
+get(): 
+
+- if first node is the result, get it
+- if collision, use equals() to get the entry (O(n) or O(logn))
+
+#### 
 
 
 
@@ -397,36 +480,83 @@ publc class Main {
 
 
 
-#### Exception handling
+## Exception handling
 
-```ascii
-                     ┌───────────┐
-                     │  Object   │
-                     └───────────┘
-                           ▲
-                           │
-                     ┌───────────┐
-                     │ Throwable │
-                     └───────────┘
-                           ▲
-                 ┌─────────┴─────────┐
-                 │                   │
-           ┌───────────┐       ┌───────────┐
-           │   Error   │       │ Exception │
-           └───────────┘       └───────────┘
-                 ▲                   ▲
-         ┌───────┘              ┌────┴──────────┐
-         │                      │               │
-┌─────────────────┐    ┌─────────────────┐┌───────────┐
-│OutOfMemoryError │... │RuntimeException ││IOException│...
-└─────────────────┘    └─────────────────┘└───────────┘
-                                ▲
-                    ┌───────────┴─────────────┐
-                    │                         │
-         ┌─────────────────────┐ ┌─────────────────────────┐
-         │NullPointerException │ │IllegalArgumentException │...
-         └─────────────────────┘ └─────────────────────────┘
+![](https://www.protechtraining.com/static/bookshelf/java_fundamentals_tutorial/images/ExceptionClassHierarchy.png)
+
+**Checked vs Unchecked** Exceptions:
+
+Checked exception is checked by compiler at compile time: `IOException`, `SQLException`
+
+Unchecked exception is checked at run time by JVM, `ArrayIndexOutOfBoundsException`, `NullPointerException`.
+
+
+
+**Exception vs Error**: Error is a serious problem and cannot be caught. Exception can be caught to make the program keep running.
+
+
+
+A static block can **only** throw RunTimeException, or try catch a checked exception.
+
+**Exception Handling:**
+
+```java
+public static void main(String[] args) {
+    try {
+        process1();
+        process2();
+        process3();
+    } catch (UnsupportedEncodingException e) {
+        System.out.println("Bad encoding");
+    } catch (IOException e) {
+        System.out.println("IO error");
+        e.printStackTrace(); // this helps locate the exception
+    } finally {  // finally block will always be executed
+        System.out.println("END");
+    }
+}
 ```
+
+`throws` vs `throw`
+
+```java
+void process (String file) throws IOException {
+    try {...}
+    finally {
+        throw new NumberFormatException("null");
+    }
+}
+
+
+```
+
+how to get full stack of exception
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        try {
+            process1();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void process1() {
+        try {
+            process2();
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException(e); // must pass e to the next exception or it will be retyped and cannot be located.
+        }
+    }
+
+    static void process2() {
+        throw new NullPointerException();
+    }
+}
+```
+
+
 
 
 
@@ -472,6 +602,8 @@ class Mythread2 implements Runnable {
 }
 ```
 
+`Runnable` is preferred because you can treat the objects separately instead of only get the thread behavior. It allows the objects loosely coupled with concurrency ways. 
+
 #### Methods
 
 To create a thread, `start()` is used. If only use `run()`, it only calls the simple method. `start()` can only be used once, but `run()` can be called multiple times.
@@ -483,6 +615,14 @@ To create a thread, `start()` is used. If only use `run()`, it only calls the si
 `Thread.sleep()`: static method, just pause the current thread and does **not** release locks.
 
 `Thread.yield()`: inform the scheduler that this thread is willing to relinquish its current use of processor and to be scheduled back as soon as possible. The behavior is varying.
+
+#### life cycle of a thread
+
+![](https://static.javatpoint.com/images/thread-life-cycle.png)
+
+
+
+
 
 #### **States of a thread**
 

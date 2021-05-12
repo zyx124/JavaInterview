@@ -32,7 +32,7 @@ Java 1.8 and later:
 
 **Stack:** stores **frames**. It holds local variables and partial results, and plays a part in method invocation and return. 
 
-Each thread has a private JVM stack. 
+Each **thread** has a private JVM stack. 
 
 A frame is created every time a method is invoked. A frame is destroyed when its method invocation completes. 
 
@@ -62,9 +62,9 @@ HotSpot VM GC types:
   - Mixed GC
 - Full GC
 
-Objects are allocated into Eden area, after the first collection of the Young Generation, they will go into S0 or S1 if they still survive, and the age is added by 1. After the age is larger than a value (default 15), the objects will go to the Old Generation.
+Objects are allocated into Eden area, after the first collection of the *Young Generation*, they will go into S0 or S1 if they still survive, and the age is added by 1. After the age is larger than a value (default 15), the objects will go to the Old Generation.
 
-An object is first allocated into Eden area, if space is not enough, JVM will start a Minor GC to put the objects into the Survivor area. 
+An object is at first allocated into Eden area, if space is not enough, JVM will start a Minor GC to put the objects into the Survivor area. 
 
 Large objects like Strings and arrays go directly into the Old Generation.
 
