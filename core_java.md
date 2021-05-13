@@ -141,13 +141,13 @@ Why: Flexibility, Reusability, Maintainability
 
 - **Byte stream** (`InputStream`, `OutputStream`): handling byte, for processing raw data files like binary files.
 
-  ![](https://www3.ntu.edu.sg/home/ehchua/programming/java/images/IO_InputOutputStreams.png)
+  ![IO_InputOutputStreams](/home/zyx/repo/JavaInterview/IO_InputOutputStreams.png)
 
   
 
 - **Character Stream** (`Reader`, `Writer`): handling characters, use Unicode so can be internationalized. Often used to process text files.
 
-  ![](https://www3.ntu.edu.sg/home/ehchua/programming/java/images/IO_InputOutputReadersWriters.png)
+  <img src="/home/zyx/repo/JavaInterview/IO_InputOutputReadersWriters.png" alt="IO_InputOutputReadersWriters" style="zoom:150%;" />
 
   - **Buffered Stream**: read buffer memory, native input API is called only when the buffer is empty, native output API is called when the buffer is full. `flush ` method can be called to save the buffer to the disk.
 
@@ -155,21 +155,22 @@ Why: Flexibility, Reusability, Maintainability
 
     
 
-## 
-
-
-
 
 
 ## 
 
 ## Design Pattern
 
-**Singleton**: restrict only one instance of a certain class. 
+**Singleton**: restrict only one instance of a certain thread. 
 
 ```java
 public class Singleton implements Serializable, Cloneable {
-    private static Singleton instance;
+    // lazy instantiation
+    private static Singleton instance; 
+    
+    // Eager instantiation
+    // private static Singleton instance = new Singleton();
+    
     
     // private constructor
     private Singleton() {}
@@ -194,6 +195,29 @@ public class Singleton implements Serializable, Cloneable {
     }
 }
 ```
+
+Enum singleton has serialization and thread-safe guaranteed.
+
+```java
+public enum EnumSingleton {
+    
+    INSTANCE("Initial class info"); 
+ 
+    private String info;
+ 
+    private EnumSingleton(String info) {
+        this.info = info;
+    }
+ 
+    public EnumSingleton getInstance() {
+        return INSTANCE;
+    }
+    
+    // getters and setters
+}
+```
+
+
 
 **factory**: 
 
@@ -502,17 +526,29 @@ A static block can **only** throw RunTimeException, or try catch a checked excep
 
 ```java
 public static void main(String[] args) {
+    Scanner scanner = null;
     try {
-        process1();
-        process2();
-        process3();
-    } catch (UnsupportedEncodingException e) {
-        System.out.println("Bad encoding");
-    } catch (IOException e) {
-        System.out.println("IO error");
-        e.printStackTrace(); // this helps locate the exception
-    } finally {  // finally block will always be executed
-        System.out.println("END");
+        scanner = new Scanner(new File("test.txt"));
+        while (scanner.hasNext()) {
+            System.out.println(scanner.nextLine());
+        }
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } finally {
+        if (scanner != null) {
+            scanner.close();
+        }
+    }
+}
+
+// Transfer to the try-with-resources. It can deal with multiple sources and do not need finally block to close the sources. It still can have catch and finally blockes though.
+public static void main(String[] args) {
+    try (Scanner scanner = new Scanner(new File("test.txt"))) {
+        while (scanner.hasNext()) {
+            System.out.println(scanner.nextLine());
+        }
+    } catch (FileNotFoundException fnfe) {
+        fnfe.printStackTrace();
     }
 }
 ```
