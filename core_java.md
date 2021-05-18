@@ -1,4 +1,4 @@
-#### Core Java
+####  	Core Java
 
 ## Wrapper Class
 
@@ -155,10 +155,6 @@ Why: Flexibility, Reusability, Maintainability
 
     
 
-
-
-## 
-
 ## Design Pattern
 
 **Singleton**: restrict only one instance of a certain thread. 
@@ -196,7 +192,7 @@ public class Singleton implements Serializable, Cloneable {
 }
 ```
 
-Enum singleton has serialization and thread-safe guaranteed.
+Enum singleton has serialization and thread-safe guaranteed, prevent **reflections**
 
 ```java
 public enum EnumSingleton {
@@ -219,7 +215,7 @@ public enum EnumSingleton {
 
 
 
-**factory**: 
+**factory**: without exposing the creation logic and refer to newly created object using a common interface.
 
 ```java
    public interface Shape {
@@ -516,7 +512,7 @@ Unchecked exception is checked at run time by JVM, `ArrayIndexOutOfBoundsExcepti
 
 
 
-**Exception vs Error**: Error is a serious problem and cannot be caught. Exception can be caught to make the program keep running.
+**Exception vs Error**: Error is a serious problem and **can** be caught (but usually not). Exception can be caught to make the program keep running.
 
 
 
@@ -599,7 +595,12 @@ public class Main {
 #### **user defined exception**:
 
 ```java
-// first define a base exception
+// first define a base exception, create a checked exception
+public class BaseException extends Exception{
+    // ...
+}
+
+// first define a base exception, create an unchecked exception
 public class BaseException extends RuntimeException{
     // ...
 }
