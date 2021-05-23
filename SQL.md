@@ -7,7 +7,7 @@ A stage in SDLC.
 ###### keys
 
 - **Super** Key: the key that can identify the table.
-- **Primary** key: one per table, usually ID column.
+- **Primary** key: one per table, usually ID column. NOT null.
 - **Unique** key:  minimal super key
 - **candidate** key: a kind of unique key
 - **foreign **key: keys to link between two tables
