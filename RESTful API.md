@@ -43,7 +43,7 @@ key-value pairs
 
 - request (request.setAttribute())
 - session: `httpSession`, login info available in session, once session expires, `IllegalStateException`
-- application
+- application: accessible in the application. e.g. dburl, username, password should be accessible multiple servlets in the same application.
 
 **HTTP**
 
@@ -55,3 +55,12 @@ key-value pairs
 
 **Session API**:
 
+`getSession()` creates a new `HttpSession` object and add a cookie to the response object with name `JSESSIONID` 
+
+###### Filter
+
+invoked at pre-processing or post-processing of a request,filtering tasks like conversion, logging, compression encryption, validation etc.
+
+**filter life cycle:** init(config) -> doFilter() -> destroy()
+
+**filter vs interceptor**
